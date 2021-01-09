@@ -1,0 +1,35 @@
+.create-nomination{
+    width: 1200px;
+    height: fit-content;
+}
+
+.create-nomination__container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: fit-content;
+}
+
+.create-nomination__card{
+    margin: 10px;
+    height: fit-content;
+}
+
+.create-nomination__search-results{
+    display: flex;
+    flex-direction: column;
+}
+
+.create-nomination__movie-result-card{
+    display: flex;
+    flex-direction: column;
+}
+.create-nomination__movie-poster{
+    width: 130px;
+}
+
+.create-nomination__movie-result-card__side{
+    margin-left: 24px;
+    margin-right: 24px;
+    flex: 1;
+}
