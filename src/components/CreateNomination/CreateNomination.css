@@ -23,6 +23,7 @@
 .create-nomination__movie-result-card{
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 .create-nomination__movie-poster{
     width: 130px;
@@ -32,4 +33,20 @@
     margin-left: 24px;
     margin-right: 24px;
     flex: 1;
+}
+
+.create-nomination__movie-nomination-poster{
+    width: 150px;
+    height: 220px;
+}
+
+.create-nomination__movie-nomination-card{
+    display: flex;
+    flex-wrap: wrap;
+    width: 150px;
+    margin: 10px;
+}
+
+.ant-card-actions{
+    border-right: 1px solid #f0f0f0;
 }

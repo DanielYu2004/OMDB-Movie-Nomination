@@ -5,8 +5,6 @@ import { Navbar, CreateNomination, ViewNomination } from "./components";
 import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-const { Content } = Layout;
-
 function App() {
   return (
     <div className="app">

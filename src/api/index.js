@@ -11,7 +11,7 @@
    * Returns promise which resolves/rejects when fetch request finishes
    */
   const fetchRequest = (url, requestOptions) => {
-    var base = process.env.NODE_ENV === "production" ? "http://www.omdbapi.com" : "http://www.omdbapi.com"
+    var base = process.env.NODE_ENV === "production" ? "https://www.omdbapi.com" : "https://www.omdbapi.com"
     return new Promise((resolve, reject) => {
         fetch(base + url, requestOptions)
             .then(response => response.text())
@@ -23,7 +23,7 @@
 }
 
 /**
-   * Retrieve all clinician's patients with their summarized data
+   * Retrieve first page of movie results with given search term
    */
 
   export const searchMovieResults = async (searchTerm) => {
