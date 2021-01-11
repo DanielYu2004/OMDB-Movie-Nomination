@@ -30,10 +30,13 @@ class CreateNomination extends Component {
     const nominatedMovies = JSON.parse(localStorage.getItem("nominations"));
     
     const nominatedIDs = [];
-    nominatedMovies.forEach(movie => {
-      nominatedIDs.push(movie.imdbID);
-    })
-    this.setState({nominatedMovies, nominatedIDs})
+    if (nominatedMovies !== null && nominatedMovies.length > 0){
+      nominatedMovies.forEach(movie => {
+        nominatedIDs.push(movie.imdbID);
+      })
+      this.setState({nominatedMovies, nominatedIDs})
+    }
+    
   }
 
   searchMovieResults(searchTerm) {
