@@ -4,9 +4,7 @@ import "./CreateNomination.css";
 import { searchMovieResults } from "../../api";
 import { MovieSearch, MovieResults, MovieNominations } from "./components";
 
-import { Typography, Alert } from "antd";
-
-const { Title } = Typography;
+import { Alert } from "antd";
 
 class CreateNomination extends Component {
   constructor(props) {
@@ -19,12 +17,23 @@ class CreateNomination extends Component {
       showAlert: false,
       loading: {
         results: false,
-        submit: false
-      }
+        submit: false,
+      },
     };
     this.searchMovieResults = this.searchMovieResults.bind(this);
     this.nominateMovie = this.nominateMovie.bind(this);
     this.removeNomination = this.removeNomination.bind(this);
+  }
+
+  componentDidMount() {
+    // Retrieve cached nominated movies
+    const nominatedMovies = JSON.parse(localStorage.getItem("nominations"));
+    
+    const nominatedIDs = [];
+    nominatedMovies.forEach(movie => {
+      nominatedIDs.push(movie.imdbID);
+    })
+    this.setState({nominatedMovies, nominatedIDs})
   }
 
   searchMovieResults(searchTerm) {
@@ -35,7 +44,6 @@ class CreateNomination extends Component {
       .then((response) => {
         this.setLoading("results", false);
         if (response.Response === "True") {
-
           // To make sure nominated movies can't be nominated again by refreshing the search
           response.Search.forEach((movie, index, arr) => {
             if (this.state.nominatedIDs.includes(movie.imdbID)) {
@@ -46,6 +54,7 @@ class CreateNomination extends Component {
           this.setState({ movieResults: response.Search });
         } else {
           // Handle Error
+          this.setState({movieResults: []})
         }
       })
       .catch((err) => {
@@ -58,8 +67,11 @@ class CreateNomination extends Component {
 
   nominateMovie(imdbID) {
     if (this.state.nominatedMovies.length === 5) {
-      // Refresh state to force rerender of Alert component each time they try to add another movie 
-      this.setState({showAlert: false}, () => this.setState({showAlert: true}))
+      // Refresh state to force rerender of Alert component each time they try to add another movie
+      this.setState({ showAlert: false }, () =>
+        this.setState({ showAlert: true })
+      );
+      window.scrollTo(0, 0);
       return;
     }
 
@@ -71,11 +83,20 @@ class CreateNomination extends Component {
         arr[index].nominated = true;
       }
     });
-    this.setState((prevState) => ({
-      movieResults,
-      nominatedMovies: [...prevState.nominatedMovies, nominatedMovie],
-      nominatedIDs: [...prevState.nominatedIDs, nominatedMovie.imdbID],
-    }));
+    this.setState(
+      (prevState) => ({
+        movieResults,
+        nominatedMovies: [...prevState.nominatedMovies, nominatedMovie],
+        nominatedIDs: [...prevState.nominatedIDs, nominatedMovie.imdbID],
+      }),
+      () => {
+        // Saving nomination to local storage
+        localStorage.setItem(
+          "nominations",
+          JSON.stringify(this.state.nominatedMovies)
+        );
+      }
+    );
   }
 
   removeNomination(imdbID) {
@@ -86,16 +107,25 @@ class CreateNomination extends Component {
       }
     });
 
-    this.setState((prevState) => ({
-      nominatedMovies: prevState.nominatedMovies.filter(
-        (movie) => movie.imdbID !== imdbID
-      ),
-      nominatedIDs: prevState.nominatedIDs.filter((id) => id !== imdbID),
-    }));
+    this.setState(
+      (prevState) => ({
+        nominatedMovies: prevState.nominatedMovies.filter(
+          (movie) => movie.imdbID !== imdbID
+        ),
+        nominatedIDs: prevState.nominatedIDs.filter((id) => id !== imdbID),
+      }),
+      () => {
+        // Saving nomination to local storage
+        localStorage.setItem(
+          "nominations",
+          JSON.stringify(this.state.nominatedMovies)
+        );
+      }
+    );
   }
 
   // General function to set loading states
-  setLoading(identifier, bool){
+  setLoading(identifier, bool) {
     this.setState((prevState) => ({
       loading: { ...prevState.loading, [identifier]: bool },
     }));
@@ -115,9 +145,9 @@ class CreateNomination extends Component {
             style={{ marginBottom: "10px" }}
           />
         ) : null}
-        <Title className="create-nomination__title">
-          The Shoppies Nomination
-        </Title>
+        <div className="create-nomination__title">
+          <span>The</span> <span style={{ color: "#008060" }}>Shoppies</span>
+        </div>
         <div className="create-nomination__container">
           <MovieSearch
             searchMovieResults={this.searchMovieResults}
@@ -127,6 +157,7 @@ class CreateNomination extends Component {
             searchTerm={searchTerm}
             nominateMovie={this.nominateMovie}
             loading={loading.results}
+            nominatedIDs={this.state.nominatedIDs}
           ></MovieResults>
           <MovieNominations
             nominatedMovies={nominatedMovies}

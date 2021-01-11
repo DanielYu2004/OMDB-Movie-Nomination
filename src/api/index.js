@@ -36,3 +36,18 @@
 
     return fetchRequest(`/?s=${searchTerm}&type=movie&page=1&apikey=30425a6a`, requestOptions)
 }
+
+/**
+   * Retrieve movie details by imdbID
+   */
+
+  export const searchMovieByID = async (imdbID) => {
+
+    var requestOptions = {
+        method: 'GET',
+        headers: generateHeaders(),
+        redirect: 'follow'
+    };
+
+    return fetchRequest(`/?i=${imdbID}&type=movie&plot=full&apikey=30425a6a`, requestOptions)
+}

@@ -1,6 +1,6 @@
-import "./App.css";
+import "./App.less";
 
-import { Navbar, CreateNomination, ViewNomination } from "./components";
+import { CreateNomination, ViewNomination } from "./components";
 
 import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -9,7 +9,6 @@ function App() {
   return (
     <div className="app">
       <Layout className="layout">
-        <Navbar></Navbar>
         <div className="layout__content">
           <Router>
             <Switch>

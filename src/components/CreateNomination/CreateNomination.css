@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap');
+
 .create-nomination{
     width: 1200px;
     height: fit-content;
@@ -49,4 +51,78 @@
 
 .ant-card-actions{
     border-right: 1px solid #f0f0f0;
+}
+
+.create-nomination__title{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 80px;
+    margin: 10px;
+}
+
+.create-nomination__movie-nomination-card .ant-card-body{
+    height: fit-content;
+    width: 150px;
+    padding: 10px;
+}
+
+.create-nomination__movie-result-card__side-action{
+    display: flex;
+    flex-direction: column;
+}
+
+.create-nomination__movie-result-card__info-button{
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-nomination__movie-result-card__info-button__icon:hover{
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1300px) {
+    .create-nomination__title{
+        font-family: 'Work Sans', sans-serif;
+        font-size: 70px;
+    }
+
+    .create-nomination{
+        width: 800px;
+    }
+    .create-nomination__movie-poster{
+        width: 100px;
+    }
+    .create-nomination__movie-nomination-poster{
+        width: 150px;
+    }
+    .create-nomination__movie-result-card__title, .ant-card-meta-title{
+        font-size: 15px !important;
+    }
+}
+
+@media only screen and (max-width: 820px) {
+    .create-nomination__title{
+        font-family: 'Work Sans', sans-serif;
+        font-size: 40px;
+    }
+
+    .create-nomination{
+        width: 350px;
+    }
+
+    .create-nomination__movie-result-poster{
+        display: none;
+    }
+
+    .create-nomination__movie-nomination-card .ant-card-body{
+        width: 120px;
+    }
+    .create-nomination__movie-nomination-card{
+        width: 120px;
+    }
+    .create-nomination__movie-nomination-poster{
+        width: 120px;
+        height: 175px;
+    }
+
 }

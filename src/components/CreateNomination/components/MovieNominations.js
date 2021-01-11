@@ -9,7 +9,6 @@ const MovieNominationsItem = (props) => {
   return (
     <Card
       className="create-nomination__movie-result-card create-nomination__movie-nomination-card"
-      bodyStyle={{ height: "fit-content", width: "150px", padding: "10px" }}
       cover={
         <img
           alt="movie poster"
@@ -29,7 +28,6 @@ const MovieNominationsItem = (props) => {
       <Meta
         title={props.Title}
         description={props.Year}
-        style={{ margin: "0px" }}
       />
     </Card>
   );

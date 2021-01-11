@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 
 import { Card, Typography, Button, Empty, Spin } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons";
+
+import MovieModal from "../../MovieModal/MovieModal";
 
 const { Title, Text } = Typography;
 
@@ -13,20 +16,33 @@ const MovieResultItem = (props) => {
       <img
         alt="movie poster"
         src={props.Poster}
-        className="create-nomination__movie-poster"
+        className="create-nomination__movie-poster create-nomination__movie-result-poster"
       ></img>
       <div className="create-nomination__movie-result-card__side">
-        <Title level={4}>{props.Title}</Title>
+        <Title
+          className="create-nomination__movie-result-card__title"
+          level={4}
+        >
+          {props.Title}
+        </Title>
 
         <Text type="secondary">{props.Year}</Text>
       </div>
-      <Button
-        type="primary"
-        disabled={props.nominated}
-        onClick={() => props.nominateMovie(props.imdbID)}
-      >
-        Nominate
-      </Button>
+      <div className="create-nomination__movie-result-card__side-action">
+        <Button
+          type="primary"
+          disabled={props.nominated}
+          onClick={() => props.nominateMovie(props.imdbID)}
+        >
+          Nominate
+        </Button>
+        <span className="create-nomination__movie-result-card__info-button">
+          <InfoCircleOutlined
+            className="create-nomination__movie-result-card__info-button__icon"
+            onClick={() => props.showMovieModal(props.imdbID)}
+          />
+        </span>
+      </div>
     </Card>
   );
 };
@@ -36,13 +52,31 @@ class MovieResults extends Component {
     super(props);
     this.state = {
       movieResults: [],
+      visible: false,
+      modalID: "",
     };
+    this.showMovieModal = this.showMovieModal.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleNominate = this.handleNominate.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.movieResults !== this.state.movieResults) {
       this.setState({ movieResults: nextProps.movieResults });
     }
+  }
+
+  showMovieModal(imdbID) {
+    this.setState({ visible: true, modalID: imdbID });
+  }
+
+  handleNominate(imdbID) {
+    this.props.nominateMovie(imdbID);
+    this.setState({ visible: false });
+  }
+
+  handleCancel() {
+    this.setState({ visible: false });
   }
 
   render() {
@@ -53,7 +87,7 @@ class MovieResults extends Component {
         title={`Results for "${this.props.searchTerm}"`}
       >
         {this.props.loading ? (
-          <div style={{display: "flex", justifyContent: "center"}}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <Spin />
           </div>
         ) : this.state.movieResults.length === 0 ? (
@@ -65,10 +99,19 @@ class MovieResults extends Component {
                 {...val}
                 key={val.imdbID}
                 nominateMovie={this.props.nominateMovie}
+                showMovieModal={this.showMovieModal}
               ></MovieResultItem>
             );
           })
         )}
+
+        <MovieModal
+          visible={this.state.visible}
+          imdbID={this.state.modalID}
+          handleNominate={this.handleNominate}
+          handleCancel={this.handleCancel}
+          nominated={this.props.nominatedIDs.includes(this.state.modalID)}
+        ></MovieModal>
       </Card>
     );
   }

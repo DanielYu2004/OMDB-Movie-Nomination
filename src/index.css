@@ -8,7 +8,13 @@ body {
 }
 
 html, body, #root, #app {
-  height: 100%
+  height: 100%;
+  background: #fbf7ed;
+
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 code {

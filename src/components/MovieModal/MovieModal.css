@@ -1,0 +1,9 @@
+.movie-modal__container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.movie-modal__container__title{
+    margin-bottom: 0px !important;
+}
