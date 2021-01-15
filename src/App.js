@@ -1,7 +1,6 @@
 import "./App.less";
 
 import { CreateNomination, ViewNomination } from "./components";
-
 import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -13,7 +12,7 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/" children={<CreateNomination />} />
-              <Route path="/:id" children={<ViewNomination />} />
+              <Route path="/:id" render={(matchProps) => <ViewNomination {...matchProps}/>} />
             </Switch>
           </Router>
         </div>

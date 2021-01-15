@@ -1,4 +1,5 @@
-import firebase from "firebase";
+import firebase from 'firebase/app';
+import 'firebase/firestore';   
 
 const firebaseConfig = {
   apiKey: "AIzaSyBoPymg7bOBhLifG8wuTBi1PaVtAuuyEfM",
@@ -11,7 +12,22 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-
 const db = firebaseApp.firestore();
 
-export { db };
+/**
+ * Add nomination list to firebase records
+ */
+
+const addNominationListToDB = (nominations) => {
+  return db.collection("nominations").add({ nominations: nominations });
+};
+
+/**
+ * Retrieve nomination list by document ID
+ */
+
+const getNominationByID = (id) => {
+  return db.collection("nominations").doc(id).get();
+};
+
+export { db, addNominationListToDB, getNominationByID };

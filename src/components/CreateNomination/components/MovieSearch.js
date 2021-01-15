@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { SearchOutlined } from "@ant-design/icons";
 import { Typography, Card, Input, Button } from "antd";
+import PropTypes from "prop-types";
 
 const { Text } = Typography;
 
@@ -41,6 +42,11 @@ class MovieSearch extends Component {
       </Card>
     );
   }
+}
+
+// Basic propType validation
+MovieSearch.propTypes = {
+  searchMovieResults: PropTypes.func
 }
 
 export default MovieSearch;

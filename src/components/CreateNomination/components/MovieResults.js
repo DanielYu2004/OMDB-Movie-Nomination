@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { Card, Typography, Button, Empty, Spin } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
-
+import PropTypes from "prop-types";
 import MovieModal from "../../MovieModal/MovieModal";
 
 const { Title, Text } = Typography;
@@ -47,6 +47,17 @@ const MovieResultItem = (props) => {
   );
 };
 
+// Basic propType validation
+MovieResultItem.propTypes = {
+  Poster: PropTypes.string,
+  Title: PropTypes.string,
+  Year: PropTypes.string,
+  imdbID: PropTypes.string,
+  nominated: PropTypes.bool,
+  nominateMovie: PropTypes.func,
+  showMovieModal: PropTypes.func
+};
+
 class MovieResults extends Component {
   constructor(props) {
     super(props);
@@ -60,9 +71,10 @@ class MovieResults extends Component {
     this.handleNominate = this.handleNominate.bind(this);
   }
 
+  // Can also use getDerivedStateFromProps to avoid deprecated warning
   componentWillReceiveProps(nextProps) {
     if (nextProps.movieResults !== this.state.movieResults) {
-      this.setState({ movieResults: nextProps.movieResults });
+      this.setState({ movieResults: nextProps.movieResults }); // To update state when necessary
     }
   }
 
@@ -76,29 +88,31 @@ class MovieResults extends Component {
   }
 
   handleCancel() {
-    this.setState({ visible: false });
+    this.setState({ visible: false, imdbID: "" });
   }
 
   render() {
+    const { searchTerm, loading, nominateMovie, nominatedIDs } = this.props;
+    const { movieResults, visible, modalID } = this.state;
     return (
       <Card
         className="create-nomination__card create-nomination__search-results"
         style={{ flex: 1 }}
-        title={`Results for "${this.props.searchTerm}"`}
+        title={`Results for "${searchTerm}"`}
       >
-        {this.props.loading ? (
+        {loading ? (
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Spin />
           </div>
-        ) : this.state.movieResults.length === 0 ? (
+        ) : movieResults.length === 0 ? (
           <Empty description={<span>No Movies Found</span>}></Empty>
         ) : (
-          this.state.movieResults.map((val) => {
+          movieResults.map((val) => {
             return (
               <MovieResultItem
                 {...val}
                 key={val.imdbID}
-                nominateMovie={this.props.nominateMovie}
+                nominateMovie={nominateMovie}
                 showMovieModal={this.showMovieModal}
               ></MovieResultItem>
             );
@@ -106,15 +120,25 @@ class MovieResults extends Component {
         )}
 
         <MovieModal
-          visible={this.state.visible}
-          imdbID={this.state.modalID}
+          visible={visible}
+          imdbID={modalID}
           handleNominate={this.handleNominate}
           handleCancel={this.handleCancel}
-          nominated={this.props.nominatedIDs.includes(this.state.modalID)}
+          nominated={nominatedIDs.includes(modalID)}
+          actionable={true}
         ></MovieModal>
       </Card>
     );
   }
 }
+
+// Basic propType validation
+MovieResults.propTypes = {
+  movieResults: PropTypes.array,
+  searchTerm: PropTypes.string,
+  nominateMovie: PropTypes.func,
+  loading: PropTypes.bool,
+  nominatedIDs: PropTypes.array,
+};
 
 export default MovieResults;

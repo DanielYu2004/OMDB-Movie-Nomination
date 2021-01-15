@@ -1,0 +1,43 @@
+.view-nomination__title {
+  font-family: "Work Sans", sans-serif;
+  font-size: 80px;
+  margin: 10px;
+}
+
+.view-nomination__content{
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    width: 1000px;
+}
+
+.view-nomination__card{
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.view-nomination__card__content{
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+}
+
+@media only screen and (max-width: 1300px) {
+  .view-nomination__title {
+    font-family: "Work Sans", sans-serif;
+    font-size: 70px;
+  }
+  .view-nomination__content{
+    width: 600px;
+}
+}
+
+@media only screen and (max-width: 820px) {
+  .view-nomination__title {
+    font-family: "Work Sans", sans-serif;
+    font-size: 40px;
+  }
+  .view-nomination__content{
+    width: 350px;
+}
+}

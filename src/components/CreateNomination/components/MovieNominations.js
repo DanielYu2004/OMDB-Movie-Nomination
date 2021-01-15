@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 
 import { Card, Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 
 const { Meta } = Card;
 
@@ -25,44 +26,57 @@ const MovieNominationsItem = (props) => {
       ]}
       bordered
     >
-      <Meta
-        title={props.Title}
-        description={props.Year}
-      />
+      <Meta title={props.Title} description={props.Year} />
     </Card>
   );
 };
 
-class MovieNominations extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      movieNominations: [],
-    };
-  }
+// Basic propType validation
+MovieNominationsItem.propTypes = {
+  Title: PropTypes.string,
+  Year: PropTypes.string,
+  Poster: PropTypes.string,
+  imdbID: PropTypes.string,
+  removeNomination: PropTypes.func,
+};
 
-  render() {
-    return (
-      <Card
-        className="create-nomination__card"
-        style={{ flex: 1 }}
-        title={`My Nominations`}
-        actions={[<Button type="primary">Submit</Button>]}
-      >
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {this.props.nominatedMovies.map((val) => {
-            return (
-              <MovieNominationsItem
-                {...val}
-                key={val.imdbID}
-                removeNomination={this.props.removeNomination}
-              ></MovieNominationsItem>
-            );
-          })}
-        </div>
-      </Card>
-    );
-  }
-}
+const MovieNominations = (props) => {
+  return (
+    <Card
+      className="create-nomination__card"
+      style={{ flex: 1 }}
+      title={`My Nominations`}
+      actions={[
+        <Button
+          type="primary"
+          onClick={props.submitNominations}
+          loading={props.loading}
+        >
+          Submit
+        </Button>,
+      ]}
+    >
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        {props.nominatedMovies.map((val) => {
+          return (
+            <MovieNominationsItem
+              {...val}
+              key={val.imdbID}
+              removeNomination={props.removeNomination}
+            ></MovieNominationsItem>
+          );
+        })}
+      </div>
+    </Card>
+  );
+};
+
+// Basic propType validation
+MovieNominations.propTypes = {
+  nominatedMovies: PropTypes.array,
+  removeNomination: PropTypes.func,
+  submitNominations: PropTypes.func,
+  loading: PropTypes.bool,
+};
 
 export default MovieNominations;
