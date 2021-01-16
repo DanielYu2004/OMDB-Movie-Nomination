@@ -1,8 +1,9 @@
 import React from "react";
 
-import { Card, Button } from "antd";
+import { Card, Button, Empty } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
+import EmptyImage from "./empty.png";
 
 const { Meta } = Card;
 
@@ -57,15 +58,23 @@ const MovieNominations = (props) => {
       ]}
     >
       <div style={{ display: "flex", flexWrap: "wrap" }}>
-        {props.nominatedMovies.map((val) => {
-          return (
-            <MovieNominationsItem
-              {...val}
-              key={val.imdbID}
-              removeNomination={props.removeNomination}
-            ></MovieNominationsItem>
-          );
-        })}
+        {props.nominatedMovies.length === 0 ? (
+          <div
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          >
+            <Empty image={EmptyImage} description=""></Empty>
+          </div>
+        ) : (
+          props.nominatedMovies.map((val) => {
+            return (
+              <MovieNominationsItem
+                {...val}
+                key={val.imdbID}
+                removeNomination={props.removeNomination}
+              ></MovieNominationsItem>
+            );
+          })
+        )}
       </div>
     </Card>
   );
