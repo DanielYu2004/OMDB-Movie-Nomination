@@ -38,8 +38,3 @@ A web application to nominate up to 5 movies for The Shoppies Award Show. Users 
 - React
 - Firebase (firestore and hosting)
 - Ant Design (component library)
-
-## Notes
-- OMDB search by name in searchbar happens on enter/search button press rather than onChange callback to avoid 1000 request limit
-- Use an express server to hide OMDB API key
-- Firebase was used for shareable links rather than including imdbIDs in the url as further development in this project would require a central database for results, statistics, etc...
